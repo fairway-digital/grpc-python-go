@@ -2,11 +2,20 @@
 
 Using gRPC to make a go client communicate with a python server.
 
+Service is just a dumb 1 + 1 = 2 service.
 
-# Generate go stub
+
+# Protobuf code gen
+## Generate go code
 
 ```
 protoc --go_out=plugins=grpc:. protos/sum.proto
+```
+
+## Generate python code
+
+```
+python -m grpc_tools.protoc -I./protos --python_out=python-server --grpc_python_out=python-server protos/sum.proto
 ```
 
 # Start python server
