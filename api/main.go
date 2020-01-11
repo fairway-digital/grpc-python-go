@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"google.golang.org/grpc"
@@ -16,7 +17,26 @@ const (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Request 1 + 1")
+	if err := r.ParseForm(); err != nil {
+		log.Printf("Error parsing form: %s", err)
+		return
+	}
+	operand1Param := r.Form.Get("operand1")
+	operand1, err := strconv.ParseInt(operand1Param, 10, 32)
+	if err != nil {
+		log.Printf("Error parsing operand1: %s", err)
+		return
+	}
+
+	operand2Param := r.Form.Get("operand2")
+	operand2, err := strconv.ParseInt(operand2Param, 10, 32)
+	if err != nil {
+		log.Printf("Error parsing operand2: %s", err)
+		return
+	}
+
+	log.Printf("Request sum %d + %d", operand1, operand2)
+
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -27,11 +47,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	res, err := c.Sum(ctx, &pb.SumRequest{Operand1: 1, Operand2: 1})
+	res, err := c.Sum(ctx, &pb.SumRequest{Operand1: int32(operand1), Operand2: int32(operand2)})
 	if err != nil {
 		log.Fatalf("could not sum: %v", err)
 	}
-	log.Printf("Result 1 + 1 = %d", res.GetResult())
+	log.Printf("Result %d + %d = %d", operand1, operand2, res.GetResult())
 
 	js, err := json.Marshal(res)
 	if err != nil {

@@ -6,6 +6,9 @@ A simple go programm (client) is requesting to a server (python) result of a sum
 
 Result (2) is returned to client.
 
+GET http://localhost:8080/?operand1=1&operand2=2
+=> result 3
+
 # Prequesite
 
 1. install protoc
