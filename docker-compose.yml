@@ -4,5 +4,5 @@ services:
     build: ./computation
     container_name: py-server
   client:
-    build: ./go-client
-    container_name: go-client
+    build: ./api
+    container_name: api

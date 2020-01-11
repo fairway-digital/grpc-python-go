@@ -46,7 +46,7 @@ python server.py
 # Start go client
 
 ```
-cd go-client
+cd api
 
 go run main.go
 
