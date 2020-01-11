@@ -1,5 +1,5 @@
 build:
-	docker build -t py-server . --no-cache
+	docker build -t compute . --no-cache
 
 run:
-	docker run --name py-server -d py-server
+	docker run -p 50051:50051 --name compute -d compute

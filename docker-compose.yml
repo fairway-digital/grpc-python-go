@@ -2,7 +2,11 @@ version: '3'
 services:
   computation:
     build: ./computation
-    container_name: py-server
+    container_name: computation
+    expose:
+      - 50051
   client:
     build: ./api
     container_name: api
+    depends_on:
+      - computation
