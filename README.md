@@ -11,7 +11,7 @@ Result (2) is returned to client.
 ## Generate go code
 
 ```
-protoc --go_out=plugins=grpc:. protos/math.proto
+make proto-go
 ```
 
 ## Generate python code
@@ -40,7 +40,8 @@ go run main.go
 # TODO
 
 [ ] Dockerifier
-[ ] Generer les stubs protobuf go -> go-client/generated
+[ ] K8s-ifier -> gcp
+[ ] Front
 [ ] Generer les stubs protobuf python -> python-server/generated
 [ ] Test de rpc mode stream (sera utile pour les calculs plus long)
 [ ] Read input sum param from cli (vs hard coded)
