@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package math;
 
-service Arithmetic {
+service Calculator {
   rpc Sum (SumRequest) returns (SumResponse) {}
 }
 
