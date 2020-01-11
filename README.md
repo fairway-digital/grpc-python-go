@@ -38,7 +38,7 @@ make proto-py
 # Start python server
 
 ```
-cd python-server
+cd computation
 
 python server.py
 ```

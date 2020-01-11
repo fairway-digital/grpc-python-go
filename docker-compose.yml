@@ -1,7 +1,7 @@
 version: '3'
 services:
-  server:
-    build: ./python-server
+  computation:
+    build: ./computation
     container_name: py-server
   client:
     build: ./go-client

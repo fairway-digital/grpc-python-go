@@ -1,5 +1,5 @@
 __pycache__/
 go-client/protos/
-python-server/*pb2.py
-python-server/*pb2_grpc.py
+computation/*pb2.py
+computation/*pb2_grpc.py
 
