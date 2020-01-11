@@ -1,0 +1,8 @@
+version: '3'
+services:
+  server:
+    build: ./python-server
+    container_name: py-server
+  client:
+    build: ./go-client
+    container_name: go-client
