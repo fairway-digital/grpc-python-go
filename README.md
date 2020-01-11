@@ -39,10 +39,10 @@ go run main.go
 
 # TODO
 
-[ ] Dockerifier
-[ ] K8s-ifier
-[ ] CI/CD GCP
-[ ] Front
-[ ] Test de rpc mode stream (sera utile pour les calculs plus long)
-[ ] go CLI client
-[ ] front web client page
+* [ ] Dockerifier
+* [ ] K8s-ifier
+* [ ] CI/CD GCP
+* [ ] Front
+* [ ] Test de rpc mode stream (sera utile pour les calculs plus long)
+* [ ] go CLI client
+* [ ] front web client page
