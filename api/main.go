@@ -16,7 +16,7 @@ const (
 	address = "computation:50051"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func handlerSum(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		log.Printf("Error parsing form: %s", err)
 		return
@@ -65,6 +65,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	log.Print("Starting server")
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/sum", handlerSum)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
