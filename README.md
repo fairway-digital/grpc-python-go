@@ -17,7 +17,7 @@ make proto-go
 ## Generate python code
 
 ```
-python -m grpc_tools.protoc -I./protos --python_out=python-server --grpc_python_out=python-server protos/math.proto
+make proto-py
 ```
 
 # Start python server
@@ -42,6 +42,5 @@ go run main.go
 [ ] Dockerifier
 [ ] K8s-ifier -> gcp
 [ ] Front
-[ ] Generer les stubs protobuf python -> python-server/generated
 [ ] Test de rpc mode stream (sera utile pour les calculs plus long)
 [ ] Read input sum param from cli (vs hard coded)

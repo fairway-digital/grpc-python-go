@@ -3,8 +3,8 @@ import logging
 
 import grpc
 
-import math_pb2
-import math_pb2_grpc
+from protos import math_pb2
+from protos import math_pb2_grpc
 
 
 class Arithmetic(math_pb2_grpc.ArithmeticServicer):
