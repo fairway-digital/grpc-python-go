@@ -54,7 +54,7 @@ go run main.go
 
 # TODO
 
-* [ ] Dockerifier
+* [ ] Docker-composifier
 * [ ] Voir si on peut pas directement utiliser protoc a la place de grpcio-tools pout le python
 * [ ] K8s-ifier
 * [ ] CI/CD GCP
