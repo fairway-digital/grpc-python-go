@@ -36,3 +36,11 @@ cd go-client
 go run main.go
 
 ```
+
+# TODO
+
+[ ] Dockerifier
+[ ] Generer les stubs protobuf go -> go-client/generated
+[ ] Generer les stubs protobuf python -> python-server/generated
+[ ] Test de rpc mode stream (sera utile pour les calculs plus long)
+[ ] Read input sum param from cli (vs hard coded)
