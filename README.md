@@ -40,7 +40,9 @@ go run main.go
 # TODO
 
 [ ] Dockerifier
-[ ] K8s-ifier -> gcp
+[ ] K8s-ifier
+[ ] CI/CD GCP
 [ ] Front
 [ ] Test de rpc mode stream (sera utile pour les calculs plus long)
-[ ] Read input sum param from cli (vs hard coded)
+[ ] go CLI client
+[ ] front web client page
