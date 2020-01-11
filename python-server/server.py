@@ -19,6 +19,7 @@ def serve():
     math_pb2_grpc.add_CalculatorServicer_to_server(Calculator(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
+    print('Server started, wait for calculation request')
     server.wait_for_termination()
 
 
