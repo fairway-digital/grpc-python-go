@@ -3,10 +3,12 @@ services:
   computation:
     build: ./computation
     container_name: computation
-    expose:
-      - 50051
-  client:
+    ports:
+     - "50051:50051"
+  api:
     build: ./api
     container_name: api
+    ports:
+     - "8080:8080"
     depends_on:
       - computation

@@ -54,11 +54,7 @@ go run main.go
 
 # TODO
 
-* [ ] Docker-composifier
 * [ ] Voir si on peut pas directement utiliser protoc a la place de grpcio-tools pout le python
-* [ ] K8s-ifier
 * [ ] CI/CD GCP
-* [ ] Front
 * [ ] Test de rpc mode stream (sera utile pour les calculs plus long)
-* [ ] go CLI client
 * [ ] front web client page

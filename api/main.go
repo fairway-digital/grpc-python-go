@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"log"
+	"net/http"
 	"time"
 
 	"google.golang.org/grpc"
@@ -10,10 +12,10 @@ import (
 )
 
 const (
-	address = "localhost:50051"
+	address = "computation:50051"
 )
 
-func main() {
+func handler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Request 1 + 1")
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
@@ -24,9 +26,25 @@ func main() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.Sum(ctx, &pb.SumRequest{Operand1: 1, Operand2: 1})
+
+	res, err := c.Sum(ctx, &pb.SumRequest{Operand1: 1, Operand2: 1})
 	if err != nil {
 		log.Fatalf("could not sum: %v", err)
 	}
-	log.Printf("Sum 1 + 1 = %d", r.GetResult())
+	log.Printf("Result 1 + 1 = %d", res.GetResult())
+
+	js, err := json.Marshal(res)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func main() {
+	log.Print("Starting server")
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
