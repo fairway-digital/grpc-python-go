@@ -4,8 +4,8 @@ import './App.css';
 
 function App() {
   const [result, setResult] = useState('?');
-  const [op1, setOp1] = useState();
-  const [op2, setOp2] = useState();
+  const [op1, setOp1] = useState(0);
+  const [op2, setOp2] = useState(0);
 
   const handleClick = () => {
     fetch(`/sum?operand1=${op1}&operand2=${op2}`, {
@@ -32,9 +32,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <input type="text" value={op1} onChange={handleChangeOp1}/>
+        <input type="number" value={op1} onChange={handleChangeOp1}/>
         +
-        <input type="text" value={op2} onChange={handleChangeOp2} />
+        <input type="number" value={op2} onChange={handleChangeOp2} />
         <button value="=" onClick={handleClick}>=</button>
         {result}
       </header>
