@@ -1,13 +1,8 @@
 # Introduction
 
-Using gRPC to make a go client communicate with a python server.
+Simple fronend app -> go api -> python computation app.
 
-A simple go programm (client) is requesting to a server (python) result of a sum (1 + 1).
-
-Result (2) is returned to client.
-
-GET http://localhost:8080/?operand1=1&operand2=2
-=> result 3
+The only operation is Sum(op1, op2)
 
 # Prequesite
 
@@ -24,34 +19,33 @@ brew install protobuf
 pip install grpcio-tools
 ```
 
-
-# Protobuf code gen
-## Generate go code
-
-```
-make proto-go
-```
-
-## Generate python code
+# Install
+## Generate protos
 
 ```
-make proto-py
+make proto
 ```
 
-# Start python server
+## npm
 
 ```
-cd computation
+cd front
 
-python server.py
+yarn install
 ```
 
-# Start go client
+## Start api and computation service
 
 ```
-cd api
+docker-compose -f docker-compose.yml up
+```
 
-go run main.go
+## Start front
+
+```
+cd front
+
+yarn start
 
 ```
 
@@ -60,4 +54,3 @@ go run main.go
 * [ ] Voir si on peut pas directement utiliser protoc a la place de grpcio-tools pout le python
 * [ ] CI/CD GCP
 * [ ] Test de rpc mode stream (sera utile pour les calculs plus long)
-* [ ] front web client page
