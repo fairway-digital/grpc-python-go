@@ -1,32 +1,42 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  fetch('/sum?operand1=1&operand2=15', {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-  })
-    .then(response => response.json())
-    .then(response => {
-      console.log(`1 + 15 = ${response.result}`);
-    });
+  const [result, setResult] = useState('?');
+  const [op1, setOp1] = useState();
+  const [op2, setOp2] = useState();
+
+  const handleClick = () => {
+    fetch(`/sum?operand1=${op1}&operand2=${op2}`, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then(response => response.json())
+      .then(response => {
+        setResult(response.result);
+        console.log(`1 + 15 = ${response.result}`);
+      });
+  };
+
+  const handleChangeOp1 = (evt) => {
+    setOp1(evt.target.value);
+  }
+
+  const handleChangeOp2 = (evt) => {
+    setOp2(evt.target.value);
+  }
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a>
+        <input type="text" value={op1} onChange={handleChangeOp1}/>
+        +
+        <input type="text" value={op2} onChange={handleChangeOp2} />
+        <button value="=" onClick={handleClick}>=</button>
+        {result}
       </header>
     </div>
   );
