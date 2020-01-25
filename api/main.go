@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -44,23 +45,35 @@ func handlerSum(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 	c := pb.NewCalculatorClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	res, err := c.Sum(ctx, &pb.SumRequest{Operand1: int32(operand1), Operand2: int32(operand2)})
+	stream, err := c.Sum(ctx, &pb.SumRequest{Operand1: int32(operand1), Operand2: int32(operand2)})
 	if err != nil {
 		log.Fatalf("could not sum: %v", err)
 	}
-	log.Printf("Result %d + %d = %d", operand1, operand2, res.GetResult())
 
-	js, err := json.Marshal(res)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	for {
+		res, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("%v.Sum(_) = _, %v", c, err)
+		}
+		log.Printf("Result %d + %d = %d", operand1, operand2, res.GetResult())
+		log.Printf("Finished?  %t", res.GetFinished())
+
+		js, err := json.Marshal(res)
+		if err != nil {
+			log.Fatalf("%v.Sum(_) = _, %v", c, err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
 	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
 }
 
 func main() {

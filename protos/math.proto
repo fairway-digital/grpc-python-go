@@ -3,7 +3,7 @@ syntax = "proto3";
 package math;
 
 service Calculator {
-  rpc Sum (SumRequest) returns (SumResponse) {}
+  rpc Sum (SumRequest) returns (stream SumResponse) {}
 }
 
 message SumRequest {
@@ -12,5 +12,6 @@ message SumRequest {
 }
 
 message SumResponse {
-  int32 result = 1;
+  bool finished = 1;
+  int32 result = 2;
 }

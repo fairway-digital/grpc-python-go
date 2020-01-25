@@ -10,8 +10,15 @@ import math_pb2_grpc
 class Calculator(math_pb2_grpc.CalculatorServicer):
 
     def Sum(self, request, context):
+        print('Start Sum computation...')
         result = request.operand1 + request.operand2
-        return math_pb2.SumResponse(result=result)
+        for i in range(10):
+            if i == 9:
+                yield math_pb2.SumResponse(finished=True, result=result)
+                print('Finished Sum computation, result={}'.format(result))
+            else:
+                yield math_pb2.SumResponse(finished=False, result=-1)
+                print('Still calculating Sum...')
 
 
 def serve():
