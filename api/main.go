@@ -45,7 +45,7 @@ func handlerSum(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 	c := pb.NewCalculatorClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 	defer cancel()
 
 	stream, err := c.Sum(ctx, &pb.SumRequest{Operand1: int32(operand1), Operand2: int32(operand2)})
@@ -61,19 +61,24 @@ func handlerSum(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatalf("%v.Sum(_) = _, %v", c, err)
 		}
-		log.Printf("Result %d + %d = %d", operand1, operand2, res.GetResult())
-		log.Printf("Finished?  %t", res.GetFinished())
 
-		js, err := json.Marshal(res)
-		if err != nil {
-			log.Fatalf("%v.Sum(_) = _, %v", c, err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+		if res.GetFinished() {
+			log.Printf("Result %d + %d = %d", operand1, operand2, res.GetResult())
+
+			js, err := json.Marshal(res)
+			if err != nil {
+				log.Fatalf("%v.Sum(_) = _, %v", c, err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(js)
+		} else {
+			log.Printf("Awaiting for computation result")
 		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(js)
 	}
+
 }
 
 func main() {
