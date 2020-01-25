@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -17,23 +18,29 @@ const (
 	address = "computation:50051"
 )
 
-func handlerSum(w http.ResponseWriter, r *http.Request) {
+func parseRequest(r *http.Request) (int64, int64, error) {
 	if err := r.ParseForm(); err != nil {
-		log.Printf("Error parsing form: %s", err)
-		return
+		return 0, 0, fmt.Errorf("Error parsing form: %w", err)
 	}
 	operand1Param := r.Form.Get("operand1")
 	operand1, err := strconv.ParseInt(operand1Param, 10, 32)
 	if err != nil {
-		log.Printf("Error parsing operand1: %s", err)
-		return
+		return 0, 0, fmt.Errorf("Error parsing operand2: %w", err)
 	}
 
 	operand2Param := r.Form.Get("operand2")
 	operand2, err := strconv.ParseInt(operand2Param, 10, 32)
 	if err != nil {
-		log.Printf("Error parsing operand2: %s", err)
-		return
+		return 0, 0, fmt.Errorf("Error parsing operand1: %w", err)
+	}
+
+	return operand1, operand2, nil
+}
+
+func handlerSum(w http.ResponseWriter, r *http.Request) {
+	operand1, operand2, err := parseRequest(r)
+	if err != nil {
+		log.Printf("Error parsing request: %s", err)
 	}
 
 	log.Printf("Request sum %d + %d", operand1, operand2)
