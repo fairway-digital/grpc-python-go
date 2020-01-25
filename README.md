@@ -49,8 +49,3 @@ yarn start
 
 ```
 
-# TODO
-
-* [ ] Voir si on peut pas directement utiliser protoc a la place de grpcio-tools pout le python
-* [ ] CI/CD GCP
-* [ ] Test de rpc mode stream (sera utile pour les calculs plus long)
